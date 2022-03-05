@@ -21,7 +21,10 @@ echo $private_ip srvnode-1 srvnode-1.data.private | sudo tee -a /etc/hosts
 sed -i 's/BIND=192.168.220.120/BIND='$private_ip'/g' /var/lib/hare/consul-env
 sed -i 's/CLIENT=127.0.0.1 192.168.220.120/CLIENT=127.0.0.1 '$private_ip'/g' /var/lib/hare/consul-env
 
-# Reconfigure Pillar
+# Replace config IP & Reconfigure Pillar
+sed -i "s/<enter_private_data_ip>/$private_ip/" ~/config.ini
+sed -i "s/<enter_public_data_ip>/$public_ip/" ~/config.ini
+sed -i "s/<enter_management_data_ip>/$mgmt_ip/" ~/config.ini
 provisioner configure_setup ~/config.ini 1
 provisioner confstore_export
 
